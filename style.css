@@ -1,0 +1,191 @@
+/* style.css */
+:root {
+    --bg-color: #121212;
+    --panel-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --accent-color: #3a86ff;
+    --border-color: #333333;
+}
+
+* {
+    box-sizing: border-color;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Conteneur Principal en Grid */
+.app-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    height: 100vh;
+}
+
+/* Panneau de Configuration Latéral */
+.controls-panel {
+    background-color: var(--panel-bg);
+    border-right: 1px solid var(--border-color);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+}
+
+.controls-panel h2 {
+    font-size: 1.4rem;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Groupes de contrôles (Sliders, Radios) */
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.control-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #aaa;
+}
+
+.control-group input[type="range"] {
+    width: 100%;
+    accent-color: var(--accent-color);
+    cursor: pointer;
+}
+
+.radio-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.radio-options label {
+    font-weight: normal;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-color);
+}
+
+/* Boutons d'Action */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto; /* Pousse les boutons vers le bas */
+}
+
+button {
+    background-color: #2a2a2a;
+    color: white;
+    border: 1px solid #444;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: translateY(-1px);
+}
+
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+#btn-reset {
+    background-color: #3a1c1c;
+    border-color: #5a2c2c;
+}
+#btn-reset:hover:not(:disabled) {
+    background-color: #e63946;
+    border-color: #e63946;
+}
+
+/* Zone de Visualisation (Arène + Graphiques) */
+.visuals-container {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    padding: 20px;
+    gap: 20px;
+    height: calc(100vh - 40px);
+}
+
+.canvas-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #151515;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.canvas-wrapper h3 {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: #888;
+}
+
+#arena-canvas {
+    background-color: #000000; /* Les cellules vides sont noires */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    border-radius: 4px;
+    max-width: 100%;
+    max-height: 80vh;
+}
+
+/* Wrapper des Graphiques à droite */
+.charts-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+}
+
+.chart-box {
+    background-color: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+#line-chart {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#barycentric-canvas {
+    max-width: 100%;
+    max-height: 100%;
+}
