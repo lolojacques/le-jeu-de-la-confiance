@@ -124,24 +124,26 @@ export class EvolutionEngine {
      * Phase 3 : Mobilité Spatiale Asymétrique
      */
     runMobility() {
+        let migrationCount = 0;
+        
         this.forEachAgent((agent, x, y) => {
-            // Facteur de vitesse global : si le jet rate, l'agent ne bouge pas à ce tour
-            if (Math.random() > this.mobilitySpeed) return;
-            // Un agent mobile ne cherche à fuir que s'il est "insatisfait" (score faible)
+            if (Math.random() > this.mobilitySpeed) return; 
             if (agent.score >= 20) return; 
-
+    
             const emptyCells = this.getAvailableCellsInRange(x, y, agent.mobilityRange);
             if (emptyCells.length === 0) return;
-
-            // Choisir une case vide au hasard parmi celles disponibles
+    
             const targetCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
             
-            // Déplacement physique sur la grille
             this.grid[y][x] = null;
             agent.x = targetCell.x;
             agent.y = targetCell.y;
             this.grid[targetCell.y][targetCell.x] = agent;
+            
+            migrationCount++; // On compte le déplacement
         });
+        
+        return migrationCount;
     }
 
     /**
@@ -150,7 +152,7 @@ export class EvolutionEngine {
     step() {
         this.runMatchmaking();
         this.runEvolution();
-        this.runMobility();
+        this.lastTurnMigrations = this.runMobility(); // On stocke la valeur
         this.generation++;
     }
 
