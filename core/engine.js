@@ -103,9 +103,9 @@ export class EvolutionEngine {
             );
 
             // Si le voisin a mieux réussi, forte probabilité d'imitation (ex: 85%)
-            if (bestNeighbor.score > agent.score && Math.random() < 0.85) {
+            // Remplacer l'ancienne condition par celle-ci :
+            if (bestNeighbor.score > agent.score && Math.random() < this.imitationChance) {
                 nextStrategies.set(agent.id, bestNeighbor.strategy);
-                // Optionnel : L'évolution peut impacter la richesse
                 agent.wealth += agent.score * 0.1; 
             } else {
                 agent.wealth += agent.score * 0.1;
@@ -125,6 +125,8 @@ export class EvolutionEngine {
      */
     runMobility() {
         this.forEachAgent((agent, x, y) => {
+            // Facteur de vitesse global : si le jet rate, l'agent ne bouge pas à ce tour
+            if (Math.random() > this.mobilitySpeed) return;
             // Un agent mobile ne cherche à fuir que s'il est "insatisfait" (score faible)
             if (agent.score >= 20) return; 
 
