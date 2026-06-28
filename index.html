@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Socio-Prisoner Arena 2D</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="controls-panel">
+            <h2>Configuration</h2>
+            <hr>
+            
+            <div class="control-group">
+                <label for="gini-slider">Coefficient de Gini : <span id="gini-val">0.3</span></label>
+                <input type="range" id="gini-slider" min="0" max="1" step="0.05" value="0.3">
+            </div>
+
+            <div class="control-group">
+                <label for="noise-slider">Bruit de Base : <span id="noise-val">5</span>%</label>
+                <input type="range" id="noise-slider" min="0" max="50" step="1" value="5">
+            </div>
+
+            <div class="control-group">
+                <label>Mode de Confrontation :</label>
+                <div class="radio-options">
+                    <label><input type="radio" name="game-mode" value="Individualist" checked> Individualiste</label>
+                    <label><input type="radio" name="game-mode" value="Community"> Communautaire</label>
+                </div>
+            </div>
+
+            <hr>
+            <div class="action-buttons">
+                <button id="btn-play">Play</button>
+                <button id="btn-pause">Pause</button>
+                <button id="btn-step">Step-by-Step</button>
+                <button id="btn-reset">Reset</button>
+            </div>
+        </aside>
+
+        <main class="visuals-container">
+            <div class="canvas-wrapper">
+                <h3>Arène Sociale 2D</h3>
+                <canvas id="arena-canvas" width="600" height="600"></canvas>
+            </div>
+            
+            <div class="charts-wrapper">
+                <div class="chart-box">
+                    <canvas id="line-chart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <canvas id="barycentric-canvas" width="250" height="250"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="ui/controls.js"></script>
+</body>
+</html>
