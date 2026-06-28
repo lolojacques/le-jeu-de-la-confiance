@@ -12,6 +12,25 @@
             <h2>Configuration</h2>
             <hr>
             <div class="control-group">
+                <label for="arena-size-selector">Dimensions de l'Arène :</label>
+                <select id="arena-size-selector" style="width:100%; padding:5px; background:#222; color:#fff; border:1px solid #444;">
+                    <option value="20">Petite (20x20)</option>
+                    <option value="40" selected>Standard (40x40)</option>
+                    <option value="60">Grande (60x60)</option>
+                </select>
+            </div>
+            
+            <hr>
+            <div class="control-group">
+                <h3>Indicateurs de Richesse</h3>
+                <div style="font-size:0.85rem; display:flex; flex-direction:column; gap:5px; margin-top:5px; background:#151515; padding:10px; border-radius:4px;">
+                    <div>Moyenne RICH : <span id="stat-wealth-rich" style="color:#FFD700; font-weight:bold;">0</span></div>
+                    <div>Moyenne POOR : <span id="stat-wealth-poor" style="color:#aaa; font-weight:bold;">0</span></div>
+                    <div>Écart (Ratio R/P) : <span id="stat-wealth-gap" style="color:#e63946; font-weight:bold;">0</span></div>
+                    <div>Migrations au dernier tour : <span id="stat-migrations" style="color:#3a86ff; font-weight:bold;">0</span></div>
+                </div>
+            </div>
+            <div class="control-group">
                 <label for="imitation-slider">Flexibilité Culturelle : <span id="imitation-val">85</span>%</label>
                 <input type="range" id="imitation-slider" min="0" max="100" step="5" value="85">
             </div>
