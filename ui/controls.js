@@ -14,6 +14,8 @@ let engine, renderer, charts;
 let animationId = null;
 let isRunning = false;
 let isDrawing = false;
+let GRID_WIDTH = 40;
+let GRID_HEIGHT = 40;
 
 // --- INITIALISATION ---
 
@@ -39,17 +41,18 @@ function resetSimulation() {
     if (animationId) cancelAnimationFrame(animationId);
     isRunning = false;
     updateActionButtons();
+    // Lecture dynamique de la taille choisie
+    const size = parseInt(document.getElementById('arena-size-selector').value);
+    GRID_WIDTH = size;
+    GRID_HEIGHT = size;
 
     const gini = parseFloat(document.getElementById('gini-slider').value);
     const baseNoise = parseFloat(document.getElementById('noise-slider').value) / 100;
     const mode = document.querySelector('input[name="game-mode"]:checked').value;
-    
-    const imitationChance = parseFloat(document.getElementById('imitation-slider').value) / 100;
-    const mobilitySpeed = parseFloat(document.getElementById('mobility-speed-slider').value) / 100;
-    
+
     engine = new EvolutionEngine(GRID_WIDTH, GRID_HEIGHT, mode);
-    engine.imitationChance = imitationChance;
-    engine.mobilitySpeed = mobilitySpeed;
+    engine.imitationChance = parseFloat(document.getElementById('imitation-slider').value) / 100;
+    engine.mobilitySpeed = parseFloat(document.getElementById('mobility-speed-slider').value) / 100;
     
     charts.reset();
 
@@ -113,9 +116,33 @@ function updateAnalytics() {
     const counts = {};
     Object.keys(STRATEGIES).forEach(strat => counts[strat] = 0);
 
+    let totalWealthRich = 0, countRich = 0;
+    let totalWealthPoor = 0, countPoor = 0;
+
     engine.forEachAgent(agent => {
-        counts[agent.strategy] = (counts[agent.strategy] || 0) + 1;
+        // Compte des stratégies pour les graphiques
+        counts[agent.strategy]++;
+
+        // Calcul des richesses accumulées
+        if (agent.class === 'RICH') {
+            totalWealthRich += agent.wealth;
+            countRich++;
+        } else if (agent.class === 'POOR') {
+            totalWealthPoor += agent.wealth;
+            countPoor++;
+        }
     });
+
+    // Calcul des moyennes
+    const avgRich = countRich > 0 ? (totalWealthRich / countRich) : 0;
+    const avgPoor = countPoor > 0 ? (totalWealthPoor / countPoor) : 0;
+    const gapRatio = avgPoor > 0 ? (avgRich / avgPoor) : avgRich;
+
+    // Injection dans le tableau de bord HTML
+    document.getElementById('stat-wealth-rich').textContent = avgRich.toFixed(1);
+    document.getElementById('stat-wealth-poor').textContent = avgPoor.toFixed(1);
+    document.getElementById('stat-wealth-gap').textContent = gapRatio.toFixed(1) + "x";
+    document.getElementById('stat-migrations').textContent = engine.lastTurnMigrations || 0;
 
     charts.update(engine.generation, counts);
 }
@@ -134,6 +161,7 @@ function setupEventListeners() {
         if (!isRunning) { engine.step(); renderer.render(engine); updateAnalytics(); }
     });
     document.getElementById('btn-reset').addEventListener('click', resetSimulation);
+    document.getElementById('arena-size-selector').addEventListener('change', resetSimulation);
 
     // Sliders & Radios (Changements à la volée ou requérant un reset)
     const giniSlider = document.getElementById('gini-slider');
