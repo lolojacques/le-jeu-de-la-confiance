@@ -43,8 +43,14 @@ function resetSimulation() {
     const gini = parseFloat(document.getElementById('gini-slider').value);
     const baseNoise = parseFloat(document.getElementById('noise-slider').value) / 100;
     const mode = document.querySelector('input[name="game-mode"]:checked').value;
-
+    
+    const imitationChance = parseFloat(document.getElementById('imitation-slider').value) / 100;
+    const mobilitySpeed = parseFloat(document.getElementById('mobility-speed-slider').value) / 100;
+    
     engine = new EvolutionEngine(GRID_WIDTH, GRID_HEIGHT, mode);
+    engine.imitationChance = imitationChance;
+    engine.mobilitySpeed = mobilitySpeed;
+    
     charts.reset();
 
     const totalCells = GRID_WIDTH * GRID_HEIGHT;
@@ -145,6 +151,20 @@ function setupEventListeners() {
             if (agent.class === 'MIDDLE') agent.baseNoise = newNoise * 1.0;
             if (agent.class === 'POOR') agent.baseNoise = newNoise * 2.5;
         });
+    });
+
+    // Écouteur pour la Flexibilité Culturelle
+    const imitationSlider = document.getElementById('imitation-slider');
+    imitationSlider.addEventListener('input', (e) => {
+        document.getElementById('imitation-val').textContent = e.target.value;
+        engine.imitationChance = parseFloat(e.target.value) / 100;
+    });
+    
+    // Écouteur pour la Vitesse de Migration
+    const mobilitySpeedSlider = document.getElementById('mobility-speed-slider');
+    mobilitySpeedSlider.addEventListener('input', (e) => {
+        document.getElementById('mobility-val').textContent = e.target.value;
+        engine.mobilitySpeed = parseFloat(e.target.value) / 100;
     });
 
     document.querySelectorAll('input[name="game-mode"]').forEach(radio => {
