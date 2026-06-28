@@ -16,6 +16,8 @@ export class EvolutionEngine {
         this.mode = mode; // 'Individualist' ou 'Community'
         this.grid = Array(height).fill(null).map(() => Array(width).fill(null));
         this.generation = 0;
+        this.imitationChance = 0.85; // Probabilité de copier le meilleur voisin
+        this.mobilitySpeed = 1.0;    // Fréquence/vitesse globale de déplacement
     }
 
     /**
