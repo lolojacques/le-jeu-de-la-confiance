@@ -6,16 +6,14 @@ import { calculateClassWealth, createAgent } from '../core/economy.js';
 import { STRATEGIES } from '../core/strategies.js';
 
 // Configuration de la grille
-const GRID_WIDTH = 40;
-const GRID_HEIGHT = 40;
+let GRID_WIDTH = 40;
+let GRID_HEIGHT = 40;
 const FILL_RATE = 0.75; // 75% de la grille est remplie pour laisser de la place aux migrations
 
 let engine, renderer, charts;
 let animationId = null;
 let isRunning = false;
 let isDrawing = false;
-let GRID_WIDTH = 40;
-let GRID_HEIGHT = 40;
 
 // --- INITIALISATION ---
 
