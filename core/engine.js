@@ -172,7 +172,26 @@ export class EvolutionEngine {
     step() {
         this.runMatchmaking();
         this.runEvolution();
-        this.lastTurnMigrations = this.runMobility(); // On stocke la valeur
+        
+        // --- NOUVEAU : COÛT DE LA VIE URBAIN & PRÉCARITÉ ---
+        this.forEachAgent((agent, x, y) => {
+            // Appliquer les taxes de localisation
+            if (this.isCapitale(x, y)) {
+                if (agent.class === 'POOR') agent.wealth -= 6;   // Très cher pour les pauvres
+                if (agent.class === 'MIDDLE') agent.wealth -= 3; // Cher pour les classes moyennes
+            } else if (this.isCentreVille(x, y)) {
+                if (agent.class === 'POOR') agent.wealth -= 3;   // Cher pour les pauvres
+            }
+    
+            // Règle de précarité absolue issue des fondements théoriques :
+            // Si l'agent est ruiné, il n'a plus le luxe de coopérer (criminalité de survie)
+            if (agent.wealth < 15 && agent.strategy !== 'ALWAYS_CHEAT') {
+                agent.strategy = 'ALWAYS_CHEAT';
+            }
+        });
+        // ----------------------------------------------------
+    
+        this.lastTurnMigrations = this.runMobility();
         this.generation++;
     }
 
