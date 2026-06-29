@@ -180,9 +180,9 @@ button:disabled {
     position: relative;
 }
 
-#line-chart {
-    width: 100% !important;
-    height: 100% !important;
+// remplacement de #line-chart 
+.chart-box canvas {
+    display: block;
 }
 
 #barycentric-canvas {
