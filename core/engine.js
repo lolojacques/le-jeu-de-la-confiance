@@ -18,6 +18,26 @@ export class EvolutionEngine {
         this.generation = 0;
         this.imitationChance = 0.85; // Probabilité de copier le meilleur voisin
         this.mobilitySpeed = 1.0;    // Fréquence/vitesse globale de déplacement
+        this.lastTurnMigrations = 0;
+        this.isCapitale = (x, y) => {
+            const radius = Math.floor(this.width * 0.12); // Occupe le centre (environ 25% de la largeur totale)
+            const midX = Math.floor(this.width / 2);
+            const midY = Math.floor(this.height / 2);
+            return Math.abs(x - midX) <= radius && Math.abs(y - midY) <= radius;
+        };
+        this.isCentreVille = (x, y) => {
+            // Si c'est déjà la capitale, ce n'est pas un simple centre-ville
+            if (this.isCapitale(x, y)) return false;
+            
+            // Positionner deux autres centres urbains régionaux (ex: aux tiers de la carte)
+            const radius = Math.floor(this.width * 0.08);
+            const hub1 = { x: Math.floor(this.width * 0.25), y: Math.floor(this.height * 0.25) };
+            const hub2 = { x: Math.floor(this.width * 0.75), y: Math.floor(this.height * 0.75) };
+            
+            const nearHub1 = Math.abs(x - hub1.x) <= radius && Math.abs(y - hub1.y) <= radius;
+            const nearHub2 = Math.abs(x - hub2.x) <= radius && Math.abs(y - hub2.y) <= radius;
+            return nearHub1 || nearHub2;
+        };
     }
 
     /**
