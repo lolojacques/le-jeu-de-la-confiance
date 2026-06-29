@@ -21,23 +21,34 @@ export class ArenaRenderer {
     render(engine) {
         const cellWidth = this.canvas.width / engine.width;
         const cellHeight = this.canvas.height / engine.height;
-
-        // Effacer le canvas et peindre le fond par défaut
-        this.ctx.fillStyle = '#000000'; // Les cellules vides sont noires
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-        // Parcourir la grille bidimensionnelle
+    
+        // 1. Dessiner d'abord le fond par défaut et les zones urbaines
+        for (let y = 0; y < engine.height; y++) {
+            for (let x = 0; x < engine.width; x++) {
+                const posX = x * cellWidth;
+                const posY = y * cellHeight;
+    
+                if (engine.isCapitale(x, y)) {
+                    ctx.fillStyle = '#2c1620'; // Teinte pourpre/sombre pour la Capitale prestigieuse
+                } else if (engine.isCentreVille(x, y)) {
+                    ctx.fillStyle = '#1a2421'; // Teinte émeraude/sombre pour les Centres-villes
+                } else {
+                    ctx.fillStyle = '#000000'; // Reste de la carte (Périphérie / Campagne)
+                }
+                ctx.fillRect(posX, posY, cellWidth, cellHeight);
+            }
+        }
+    
+        // 2. Dessiner les agents par-dessus cet arrière-plan teinté
         for (let y = 0; y < engine.height; y++) {
             for (let x = 0; x < engine.width; x++) {
                 const agent = engine.grid[y][x];
-                
                 if (agent !== null) {
                     this.drawAgent(agent, x, y, cellWidth, cellHeight);
                 }
             }
         }
         
-        // Optionnel : Dessiner une fine grille de démarcation si les cellules sont assez grandes
         if (cellWidth > 8) {
             this.drawGridLines(engine.width, engine.height, cellWidth, cellHeight);
         }
