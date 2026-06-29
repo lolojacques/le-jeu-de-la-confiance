@@ -29,13 +29,13 @@ export class ArenaRenderer {
                 const posY = y * cellHeight;
     
                 if (engine.isCapitale(x, y)) {
-                    ctx.fillStyle = '#2c1620'; // Teinte pourpre/sombre pour la Capitale prestigieuse
+                    this.ctx.fillStyle = '#2c1620'; // Teinte pourpre/sombre pour la Capitale prestigieuse
                 } else if (engine.isCentreVille(x, y)) {
-                    ctx.fillStyle = '#1a2421'; // Teinte émeraude/sombre pour les Centres-villes
+                    this.ctx.fillStyle = '#1a2421'; // Teinte émeraude/sombre pour les Centres-villes
                 } else {
-                    ctx.fillStyle = '#000000'; // Reste de la carte (Périphérie / Campagne)
+                    this.ctx.fillStyle = '#000000'; // Reste de la carte (Périphérie / Campagne)
                 }
-                ctx.fillRect(posX, posY, cellWidth, cellHeight);
+                this.ctx.fillRect(posX, posY, cellWidth, cellHeight);
             }
         }
     
